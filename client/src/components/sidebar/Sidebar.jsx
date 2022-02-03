@@ -1,8 +1,19 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./sidebar.css";
 import aboutus from './aboutusresize.jpeg'
 
 export default function Sidebar() {
+  const [cats, setCats] = useState([]);
+
+  useEffect(() => {
+    const getCats = async () => {
+      const res = await axios.get("/categories");
+      setCats(res.data);
+    };
+    getCats();
+  }, []);
   return (
     <div className="sidebar">
       <div className="sidebarItem">
@@ -12,51 +23,27 @@ export default function Sidebar() {
           alt=""
         />
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate qui
+          necessitatibus nostrum illum reprehenderit.
         </p>
       </div>
       <div className="sidebarItem">
         <span className="sidebarTitle">CATEGORIES</span>
         <ul className="sidebarList">
-          <li className="sidebarListItem">
-            <Link className="link" to="/posts?cat=amigurumi">
-              Amigurumi
+          {cats.map((c) => (
+            <Link to={`/?cat=${c.name}`} className="link">
+            <li className="sidebarListItem">{c.name}</li>
             </Link>
-          </li>
-          <li className="sidebarListItem">
-            <Link className="link" to="/posts?cat=animal">
-              Animal
-            </Link>
-          </li>
-          <li className="sidebarListItem">
-            <Link className="link" to="/posts?cat=life">
-              Life
-            </Link>
-          </li>
-          <li className="sidebarListItem">
-            <Link className="link" to="/posts?cat=crochet">
-              Crochet
-            </Link>
-          </li>
-          <li className="sidebarListItem">
-            <Link className="link" to="/posts?cat=knitting">
-              Knitting
-            </Link>
-          </li>
-          <li className="sidebarListItem">
-            <Link className="link" to="/posts?cat=materials">
-              Materials
-            </Link>
-          </li>
+          ))}
         </ul>
       </div>
       <div className="sidebarItem">
         <span className="sidebarTitle">FOLLOW US</span>
         <div className="sidebarSocial">
-          <i className="sidebarIcon fab fa-facebook-square"></i>
-          <i className="sidebarIcon fab fa-instagram-square"></i>
-          <i className="sidebarIcon fab fa-pinterest-square"></i>
-          <i className="sidebarIcon fab fa-twitter-square"></i>
+        <a href="https://www.facebook.com/" target="_blank" rel='noreferrer'><i className="sidebarIcon fab fa-facebook-square"></i></a>
+      <a href="https://twitter.com/login?lang=en" target="_blank" rel='noreferrer'><i className="sidebarIcon fab fa-twitter-square"></i></a>
+      <a href="https://in.pinterest.com/login/" target="_blank" rel='noreferrer'><i className="sidebarIcon fab fa-pinterest-square"></i></a>
+      <a href="https://www.instagram.com/?hl=en" target="_blank" rel='noreferrer'><i className="sidebarIcon fab fa-instagram-square"></i></a>
         </div>
       </div>
     </div>
